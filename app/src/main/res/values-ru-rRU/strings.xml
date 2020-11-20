@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HomeWorking</string>
+    <string name="storyline">Сюжет</string>
+    <string name="cast">В ролях</string>
+    <string name="_147_reviews">147 рецензий</string>
+    <string name="action_adventure_fantasy">Экшн, Приключения, Фантастика</string>
+    <string name="avengers_end_game">Мстители: Конец Игры</string>
+    <string name="robert_downey_jr">Роберт Дауни Младший</string>
+    <string name="chris_evans">Крис Эванс</string>
+    <string name="mark_ruffalo">Марк Руффало</string>
+    <string name="chris_hemsworth">Крис Хэмсворт</string>
+    <string name="back">Назад</string>
+</resources>

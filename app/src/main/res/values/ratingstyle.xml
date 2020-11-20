@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomRatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressTint">#ff3365</item>
+        <item name="android:progressBackgroundTint">#6d6d80</item>
+        <item name="android:secondaryProgressTint">#6d6d80</item>
+    </style>
+
+    <style name="ActorNameStyle" parent="">
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textColor">#D8D8D8</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
