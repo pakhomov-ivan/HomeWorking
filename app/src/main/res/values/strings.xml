@@ -12,4 +12,7 @@
     <string name="chris_hemsworth">Chris Hemsworth</string>
     <string name="_13" translatable="false">13+</string>
     <string name="back">Back</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="movies_list">Movies list</string>
 </resources>

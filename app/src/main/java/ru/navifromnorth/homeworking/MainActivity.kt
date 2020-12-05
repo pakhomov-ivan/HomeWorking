@@ -1,20 +1,35 @@
 package ru.navifromnorth.homeworking
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MoviesListFragment.TransactionsFragmentClicks,
+    MovieDetailsFragment.BackButtonListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.avengers)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.MovieListFragment, MoviesListFragment())
+            .commit()
+    }
 
-        textView.setOnClickListener{
-            val intent = Intent(this, MovieDetailsActivity::class.java)
-            startActivity(intent)
+    override fun openMovie1() {
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(null)
+            add(R.id.MovieDetailsFragment, MovieDetailsFragment())
+            commit()
         }
+    }
+
+    override fun RemoveThisFragment() {
+        val lastFragment: Fragment = supportFragmentManager.fragments.last()
+        supportFragmentManager.beginTransaction().apply {
+            remove(lastFragment)
+            commit()
+        }
+        supportFragmentManager.popBackStack()
     }
 }
