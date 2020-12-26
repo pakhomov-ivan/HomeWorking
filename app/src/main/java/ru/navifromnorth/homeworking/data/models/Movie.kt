@@ -1,6 +1,9 @@
 package ru.navifromnorth.homeworking.data.models
 
+import android.os.Parcel
+import android.os.Parcelable
 import ru.navifromnorth.homeworking.R
+import java.util.*
 
 data class Movie(
     val titleId: Int,
@@ -8,13 +11,28 @@ data class Movie(
     var hasLike: Boolean,
     val PG: Int,
     val tags: Set<Int>,
-    val rating: Double,
+    val rating: Float,
     val countReviews: Int,
     val runtimeInMinutes: Int,
-) {
-    var storylineId: Int? = null//_storylineId
-    var cast: Set<Actor>? = null//_cast
-    var backgroundPosterId: Int? = null//_backgroundPosterId
+) : Parcelable {
+    var storylineId: Int? = null
+    var cast: Set<Actor>? = null
+    var backgroundPosterId: Int? = null
+
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
+        parcel.createIntArray()?.toSet() ?: setOf<Int>(),
+        parcel.readFloat(),
+        parcel.readInt(),
+        parcel.readInt()
+    ) {
+        storylineId = parcel.readValue(Int::class.java.classLoader) as? Int
+        backgroundPosterId = parcel.readValue(Int::class.java.classLoader) as? Int
+        cast = parcel.readParcelableArray(Actor::class.java.classLoader) as? Set<Actor>?
+    }
 
 
     fun initializeDetails() {
@@ -78,6 +96,33 @@ data class Movie(
                     )
                 )
             }
+        }
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(titleId)
+        parcel.writeInt(previewImageId)
+        parcel.writeByte(if (hasLike) 1 else 0)
+        parcel.writeInt(PG)
+        parcel.writeFloat(rating)
+        parcel.writeInt(countReviews)
+        parcel.writeInt(runtimeInMinutes)
+        parcel.writeValue(storylineId)
+        parcel.writeValue(backgroundPosterId)
+        parcel.writeIntArray(tags.toIntArray())
+    }
+
+    companion object CREATOR : Parcelable.Creator<Movie> {
+        override fun createFromParcel(parcel: Parcel): Movie {
+            return Movie(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Movie?> {
+            return arrayOfNulls(size)
         }
     }
 }

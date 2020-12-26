@@ -12,7 +12,7 @@ class MoviesDataSource() {
                     PG = 13,
                     hasLike = false,
                     countReviews = 125,
-                    rating = 4.0,
+                    rating = 4.0.toFloat(),
                     runtimeInMinutes = 137,
                     tags = setOf(R.string.tag_action, R.string.tag_adventure, R.string.tag_drama)
                 ),
@@ -22,7 +22,7 @@ class MoviesDataSource() {
                     PG = 16,
                     hasLike = true,
                     countReviews = 98,
-                    rating = 5.0,
+                    rating = 5.0.toFloat(),
                     runtimeInMinutes = 97,
                     tags = setOf(R.string.tag_action, R.string.tag_sci_fi, R.string.tag_thriller)
                 ),
@@ -32,7 +32,7 @@ class MoviesDataSource() {
                     PG = 13,
                     hasLike = false,
                     countReviews = 38,
-                    rating = 4.0,
+                    rating = 4.0.toFloat(),
                     runtimeInMinutes = 102,
                     tags = setOf(R.string.tag_action, R.string.tag_adventure, R.string.tag_sci_fi)
                 ),
@@ -42,7 +42,7 @@ class MoviesDataSource() {
                     PG = 13,
                     hasLike = false,
                     countReviews = 74,
-                    rating = 5.0,
+                    rating = 5.0.toFloat(),
                     runtimeInMinutes = 120,
                     tags = setOf(R.string.tag_action, R.string.tag_adventure, R.string.tag_fantasy)
                 ),
