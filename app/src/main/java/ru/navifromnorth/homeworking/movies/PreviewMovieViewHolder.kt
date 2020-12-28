@@ -1,10 +1,11 @@
-package ru.navifromnorth.homeworking
+package ru.navifromnorth.homeworking.movies
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.models.Movie
 
 class PreviewMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,22 +21,32 @@ class PreviewMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     private val likeEnableImage = R.drawable.ic_like_enable
     private val likeDisableImage = R.drawable.ic_like
 
-    fun onBind(movie: Movie) {
+    private var onViewClick: () -> Unit = { }
+    private var onLikeClick: () -> Unit = { }
+
+    init {
+        itemView.setOnClickListener { onViewClick() }
+        like.setOnClickListener { onLikeClick() }
+    }
+
+    fun onBind(movie: Movie, actionOnViewClick: () -> Unit, actionOnLikeClick: () -> Unit) {
         previewPoster.setImageResource(movie.previewImageId)
         title.setText(movie.titleId)
-        rating.rating = movie.rating.toFloat()
+        rating.rating = movie.rating
         countReviews.text =
             itemView.context.getString(R.string.reviews_text_view, movie.countReviews)
         timing.text =
             itemView.context.getString(R.string.runtime_min_text_view, movie.runtimeInMinutes)
         PG.text = itemView.context.getString(R.string.PG_text_view, movie.PG)
 
-        if (movie.hasLike)
-            like.setImageResource(likeEnableImage)
-        else
-            like.setImageResource(likeDisableImage)
+        if (movie.hasLike) like.setImageResource(likeEnableImage)
+        else like.setImageResource(likeDisableImage)
 
         tags.text = movie.tags.joinToString(separator = ", ",
             transform = { item -> itemView.context.getString(item) })
+
+        // sets actions
+        onViewClick = actionOnViewClick
+        onLikeClick = actionOnLikeClick
     }
 }

@@ -1,9 +1,8 @@
 package ru.navifromnorth.homeworking
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import ru.navifromnorth.homeworking.movies.MoviesListFragment
 import ru.navifromnorth.homeworking.data.models.Movie
 import ru.navifromnorth.homeworking.data.models.MoviesDataSource
 
@@ -14,8 +13,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val fragment = if (supportFragmentManager.fragments.size > 0)
+            supportFragmentManager.fragments.last()
+        else
+            MoviesListFragment.newInstance(movies)
+
         supportFragmentManager.beginTransaction()
-            .add(R.id.MovieListFragment, MoviesListFragment.newInstance(movies))
+            .replace(R.id.MovieListFragment, fragment)
             .commit()
     }
 }

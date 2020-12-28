@@ -1,9 +1,10 @@
-package ru.navifromnorth.homeworking
+package ru.navifromnorth.homeworking.actors
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.models.Actor
 
 class ActorsListAdapter(private val actors: Set<Actor>, context: Context) :

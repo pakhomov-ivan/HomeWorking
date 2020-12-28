@@ -1,9 +1,10 @@
-package ru.navifromnorth.homeworking
+package ru.navifromnorth.homeworking.actors
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.models.Actor
 
 class CastActorsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
