@@ -7,23 +7,29 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import ru.navifromnorth.homeworking.R
-import ru.navifromnorth.homeworking.data.models.Movie
+import ru.navifromnorth.homeworking.data.Movie
+import ru.navifromnorth.homeworking.data.loadMovies
 
 class MoviesListFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
-    private var movies: List<Movie>? = null
+    private var movies: List<Movie> = listOf()
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArray(MOVIES_LIST, movies?.toTypedArray())
+        outState.putParcelableArray(MOVIES_LIST, movies.toTypedArray())
         super.onSaveInstanceState(outState)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movies = savedInstanceState?.getParcelableArray(MOVIES_LIST)?.map { it as Movie }?.toList()
-        movies = movies ?: arguments?.getParcelableArray(MOVIES_LIST)?.map { it as Movie }?.toList()
+            ?: listOf()
     }
 
     override fun onCreateView(
@@ -47,40 +53,50 @@ class MoviesListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         (recycler?.adapter as? MoviesAdapter)?.apply {
-            bindMovies(movies)
+            if (movies.isNotEmpty()) bindMovies(movies)
+            else
+                scope.launch {
+                    movies = context?.let { loadMovies(it) } ?: listOf()
+                    bindMovies(movies)
+                }
         }
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         recycler?.adapter = null
         recycler = null
-        movies = null
-        super.onDestroy()
+//        movies = null
+        scope.cancel()
     }
 
     private val clickListener = object : ClickListener {
-        override fun onMovieClick(movie: Movie) {
-            fragmentManager?.beginTransaction()?.apply {
-                addToBackStack(null)
-                add(R.id.MovieListFragment, MovieDetailsFragment.newInstance(movie))
-                commit()
-            }
+        override fun onMovieClick(movie: Movie?) {
+            if (movie != null)
+                fragmentManager?.beginTransaction()?.apply {
+                    addToBackStack(null)
+                    add(R.id.MovieListFragment, MovieDetailsFragment.newInstance(movie))
+                    commit()
+                }
         }
 
-        override fun onLikeClick(movie: Movie) {
-            movies?.first { it == movie }?.apply { this.hasLike = this.hasLike.not() }   //?.hasLike?.not()
+        override fun onLikeClick(movie: Movie?) {
+            movies.first { it == movie }
+                .apply { this.hasLike = this.hasLike.not() }
         }
     }
 
     companion object {
         private const val MOVIES_LIST = "MoviesList"
 
-        fun newInstance(moviesIn: List<Movie>): MoviesListFragment {
-            val args = Bundle()
-            args.putParcelableArray(MOVIES_LIST, moviesIn.toTypedArray())
-            val fragment = MoviesListFragment()
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance() = MoviesListFragment()
+
+//        fun newInstance(moviesIn: List<Movie>): MoviesListFragment {
+//            val args = Bundle()
+//            args.putParcelableArray(MOVIES_LIST, moviesIn.toTypedArray())
+//            val fragment = MoviesListFragment()
+//            fragment.arguments = args
+//            return fragment
+//        }
     }
 }

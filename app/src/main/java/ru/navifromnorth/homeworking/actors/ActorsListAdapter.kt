@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
-import ru.navifromnorth.homeworking.data.models.Actor
+import ru.navifromnorth.homeworking.data.Actor
 
-class ActorsListAdapter(private val actors: Set<Actor>, context: Context) :
+class ActorsListAdapter(private val actors: List<Actor>, context: Context) :
     RecyclerView.Adapter<ActorPreviewViewHolder>() {
 
     private var layoutInflater = LayoutInflater.from(context)

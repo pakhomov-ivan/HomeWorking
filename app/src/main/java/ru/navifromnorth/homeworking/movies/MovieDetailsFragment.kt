@@ -4,20 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.navifromnorth.homeworking.actors.ActorsListAdapter
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.navifromnorth.homeworking.R
-import ru.navifromnorth.homeworking.data.models.Movie
+import ru.navifromnorth.homeworking.actors.ActorsListAdapter
+import ru.navifromnorth.homeworking.data.Movie
 
 class MovieDetailsFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private var movie: Movie? = null
+
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(MOVIE_OBJECT, movie)
@@ -36,7 +41,33 @@ class MovieDetailsFragment : Fragment() {
         movie = savedInstanceState?.getParcelable(MOVIE_OBJECT)
             ?: arguments?.getParcelable(MOVIE_OBJECT) ?: return
 
-        movie?.initializeDetails()
+        setButtons(view)
+        setContent(view, movie)
+    }
+
+    private fun setContent(view: View, movie: Movie?) {
+        view.findViewById<TextView>(R.id.PG).text =
+            context?.getString(R.string.PG_text_view, movie?.minimumAge)
+        view.findViewById<TextView>(R.id.FilmTitle).text = movie?.title
+        view.findViewById<RatingBar>(R.id.Rating).rating = movie?.ratings?.div(2) ?: 0.0.toFloat()
+        view.findViewById<TextView>(R.id.SumReviews).text =
+            context?.getString(R.string.reviews_text_view, movie?.numberOfRatings)
+        movie?.overview?.let { view.findViewById<TextView>(R.id.StorylineDetails).text = it }
+        view.findViewById<TextView>(R.id.tags).text =
+            movie?.genres?.joinToString(separator = ", ", transform = { item -> item.name })
+        scope.launch {
+            val pic = Glide.with(view.context).load(movie?.backdrop)
+            launch(Dispatchers.Main) { pic.into(view.findViewById(R.id.HeaderImage)) }
+        }
+
+        recycler = view.findViewById(R.id.CastRV)
+        recycler?.layoutManager = LinearLayoutManager(
+            this.context, LinearLayoutManager.HORIZONTAL, false
+        )
+        recycler?.adapter = movie?.actors?.let { ActorsListAdapter(it, view.context) }
+    }
+
+    private fun setButtons(view: View) {
         view.findViewById<TextView>(R.id.BackButton).setOnClickListener {
             val lastFragment: Fragment? = fragmentManager?.fragments?.last()
             fragmentManager?.beginTransaction()?.apply {
@@ -47,28 +78,6 @@ class MovieDetailsFragment : Fragment() {
             }
             lastFragment?.let { fragmentManager?.popBackStack() }
         }
-
-        view.findViewById<TextView>(R.id.PG).text =
-            context?.getString(R.string.PG_text_view, movie?.PG)
-        view.findViewById<TextView>(R.id.FilmTitle).setText(movie?.titleId ?: -1)
-        view.findViewById<RatingBar>(R.id.Rating).rating = movie?.rating ?: 0.0.toFloat()
-        view.findViewById<TextView>(R.id.SumReviews).text =
-            context?.getString(R.string.reviews_text_view, movie?.countReviews)
-        movie?.storylineId?.let {
-            view.findViewById<TextView>(R.id.StorylineDetails).setText(it)
-        }
-        view.findViewById<TextView>(R.id.tags).text =
-            movie?.tags?.joinToString(separator = ", ",
-                transform = { item -> view.context.getString(item) })
-        movie?.backgroundPosterId?.let {
-            view.findViewById<ImageView>(R.id.HeaderImage).setImageResource(it)
-        }
-
-        recycler = view.findViewById(R.id.CastRV)
-        recycler?.layoutManager = LinearLayoutManager(
-            this.context, LinearLayoutManager.HORIZONTAL, false
-        )
-        recycler?.adapter = movie?.cast?.let { ActorsListAdapter(it, view.context) }
     }
 
     override fun onDestroy() {

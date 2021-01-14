@@ -14,7 +14,7 @@
     <ImageView
         android:id="@+id/PreviewImageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="248dp"
         android:foreground="@drawable/preview_image_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
