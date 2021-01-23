@@ -13,9 +13,12 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.navifromnorth.homeworking.MovieListVMFactory
+import ru.navifromnorth.homeworking.MovieListViewModel
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.actors.ActorsListAdapter
 import ru.navifromnorth.homeworking.data.Movie
+import androidx.fragment.app.viewModels
 
 class MovieDetailsFragment : Fragment() {
 
@@ -41,7 +44,7 @@ class MovieDetailsFragment : Fragment() {
         movie = savedInstanceState?.getParcelable(MOVIE_OBJECT)
             ?: arguments?.getParcelable(MOVIE_OBJECT) ?: return
 
-        setButtons(view)
+        setListeners(view)
         setContent(view, movie)
     }
 
@@ -67,16 +70,16 @@ class MovieDetailsFragment : Fragment() {
         recycler?.adapter = movie?.actors?.let { ActorsListAdapter(it, view.context) }
     }
 
-    private fun setButtons(view: View) {
+    private fun setListeners(view: View) {
         view.findViewById<TextView>(R.id.BackButton).setOnClickListener {
-            val lastFragment: Fragment? = fragmentManager?.fragments?.last()
-            fragmentManager?.beginTransaction()?.apply {
+            val lastFragment: Fragment? = childFragmentManager.fragments.last()
+            childFragmentManager.beginTransaction().apply {
                 lastFragment?.let {
                     remove(it)
                     commit()
                 }
             }
-            lastFragment?.let { fragmentManager?.popBackStack() }
+            lastFragment?.let { childFragmentManager.popBackStack() }
         }
     }
 
@@ -90,7 +93,7 @@ class MovieDetailsFragment : Fragment() {
     companion object {
         val MOVIE_OBJECT: String = Movie::class.java.name
 
-        fun newInstance(movie: Movie): MovieDetailsFragment {
+        fun newInstance(movie: Movie?): MovieDetailsFragment {
             val args = Bundle()
             args.putParcelable(MOVIE_OBJECT, movie)
             val fragment = MovieDetailsFragment()

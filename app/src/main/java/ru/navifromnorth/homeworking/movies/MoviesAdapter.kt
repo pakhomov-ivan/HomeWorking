@@ -1,39 +1,31 @@
 package ru.navifromnorth.homeworking.movies
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.Movie
 
-class MoviesAdapter(private val clickListener: ClickListener, context: Context) :
+//class MoviesAdapter(private val clickListener: ClickListener) :
+class MoviesAdapter(private val onMovieClick: (movie: Movie?) -> Unit,
+                    private val onLikeClick: (movie_id: Int?) -> Unit) :
     RecyclerView.Adapter<PreviewMovieViewHolder>() {
 
-    private var movies: List<Movie> = listOf()
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var movies = listOf<Movie>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewMovieViewHolder =
-        PreviewMovieViewHolder(
-            inflater.inflate(R.layout.view_holder_movie, parent, false),
-            onViewClick = { movie: Movie? -> clickListener.onMovieClick(movie) },
-            onLikeClick = { movie: Movie?, i: Int ->
-                run {
-                    clickListener.onLikeClick(movie)
-                    notifyItemChanged(i)
-                }
-            }
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewMovieViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.view_holder_movie, parent, false)
+
+        val onViewClick = { movie: Movie? -> onMovieClick(movie) }
+        val onLikeClick = { movie: Movie?, i: Int ->
+            onLikeClick(movie?.id)
+            notifyItemChanged(i)
+        }
+        return PreviewMovieViewHolder(view, onViewClick = onViewClick, onLikeClick = onLikeClick)
+    }
 
     override fun onBindViewHolder(holder: PreviewMovieViewHolder, position: Int) {
-//        holder.onBind(
-//            movies[position],
-//            { clickListener.onMovieClick(movies[position]) },
-//            {
-//                clickListener.onLikeClick(movies[position])
-//                notifyItemChanged(position)
-//            }
-//        )
         holder.onBind(movies[position])
     }
 
@@ -43,10 +35,4 @@ class MoviesAdapter(private val clickListener: ClickListener, context: Context) 
         movies = newMovies
         notifyDataSetChanged()
     }
-}
-
-interface ClickListener {
-    fun onMovieClick(movie: Movie?)
-
-    fun onLikeClick(movie: Movie?)
 }

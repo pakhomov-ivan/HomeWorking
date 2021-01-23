@@ -32,17 +32,13 @@ class PreviewMovieViewHolder(
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    //    private var onViewClick: () -> Unit = { }
-//    private var onLikeClick: () -> Unit = { }
     private var currentMovie: Movie? = null
 
     init {
-//        itemView.setOnClickListener { onViewClick() }
         itemView.setOnClickListener { onViewClick(currentMovie) }
         like.setOnClickListener { onLikeClick(currentMovie, adapterPosition) }
     }
 
-    //    fun onBind(movie: Movie, actionOnViewClick: () -> Unit, actionOnLikeClick: () -> Unit) {
     fun onBind(movie: Movie) {
         scope.launch {
             val pic = Glide.with(itemView).load(movie.poster)
@@ -61,11 +57,6 @@ class PreviewMovieViewHolder(
         tags.text = movie.genres.joinToString(separator = ", ",
             transform = { item -> item.name })
 
-        // sets actions
-//        onViewClick = actionOnViewClick
-//        onLikeClick = actionOnLikeClick
-
-        //sets current movie
         currentMovie = movie
     }
 }
