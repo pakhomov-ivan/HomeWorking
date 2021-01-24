@@ -7,13 +7,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.navifromnorth.homeworking.data.Movie
 
-class MovieListViewModel(private val moviesRepository: MoviesRepository, private val router: Router?) : ViewModel() {
+class MovieListViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
     private val _mutableMoviesList = MutableLiveData<List<Movie>>()
-//    private val _mutableSelectedMovie = MutableLiveData<Movie>()
 
     val moviesList: LiveData<List<Movie>> get() = _mutableMoviesList
-//    val selectedMovie: LiveData<Movie> get() = _mutableSelectedMovie
 
     fun updateMoviesList() {
         viewModelScope.launch {
@@ -21,14 +19,9 @@ class MovieListViewModel(private val moviesRepository: MoviesRepository, private
         }
     }
 
-    fun onMovieSelected(movie: Movie?) {
-//        _mutableSelectedMovie.value = movie
-        router?.openMovieDetails(movie)
-    }
-
-    fun onLikeClick(id: Int?){
+    fun onLikeClick(movieId: Int?) {
         _mutableMoviesList.value?.apply {
-            this.first{ it.id == id }.apply { hasLike = hasLike.not() }
+            this.first { it.id == movieId }.apply { hasLike = hasLike.not() }
         }
     }
 }

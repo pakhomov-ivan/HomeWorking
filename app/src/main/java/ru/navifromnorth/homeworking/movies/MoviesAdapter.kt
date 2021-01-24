@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.Movie
 
-//class MoviesAdapter(private val clickListener: ClickListener) :
-class MoviesAdapter(private val onMovieClick: (movie: Movie?) -> Unit,
-                    private val onLikeClick: (movie_id: Int?) -> Unit) :
-    RecyclerView.Adapter<PreviewMovieViewHolder>() {
+class MoviesAdapter(
+    private val onMovieClick: (movie: Movie?) -> Unit,
+    private val onLikeClick: (movieId: Int?) -> Unit
+) : RecyclerView.Adapter<PreviewMovieViewHolder>() {
 
     private var movies = listOf<Movie>()
 

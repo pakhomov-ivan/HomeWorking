@@ -13,17 +13,15 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.navifromnorth.homeworking.MovieListVMFactory
-import ru.navifromnorth.homeworking.MovieListViewModel
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.actors.ActorsListAdapter
 import ru.navifromnorth.homeworking.data.Movie
-import androidx.fragment.app.viewModels
 
 class MovieDetailsFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private var movie: Movie? = null
+    private var eventsListener: MovieDetailsEvents? = null
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -46,6 +44,7 @@ class MovieDetailsFragment : Fragment() {
 
         setListeners(view)
         setContent(view, movie)
+        setActorsListRecyclerView(view)
     }
 
     private fun setContent(view: View, movie: Movie?) {
@@ -62,7 +61,9 @@ class MovieDetailsFragment : Fragment() {
             val pic = Glide.with(view.context).load(movie?.backdrop)
             launch(Dispatchers.Main) { pic.into(view.findViewById(R.id.HeaderImage)) }
         }
+    }
 
+    private fun setActorsListRecyclerView(view: View) {
         recycler = view.findViewById(R.id.CastRV)
         recycler?.layoutManager = LinearLayoutManager(
             this.context, LinearLayoutManager.HORIZONTAL, false
@@ -71,16 +72,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun setListeners(view: View) {
-        view.findViewById<TextView>(R.id.BackButton).setOnClickListener {
-            val lastFragment: Fragment? = childFragmentManager.fragments.last()
-            childFragmentManager.beginTransaction().apply {
-                lastFragment?.let {
-                    remove(it)
-                    commit()
-                }
-            }
-            lastFragment?.let { childFragmentManager.popBackStack() }
-        }
+        eventsListener = context as? MovieDetailsEvents
+        view.findViewById<TextView>(R.id.BackButton)
+            .setOnClickListener { eventsListener?.onBackButtonClick() }
     }
 
     override fun onDestroy() {
@@ -101,4 +95,8 @@ class MovieDetailsFragment : Fragment() {
             return fragment
         }
     }
+}
+
+interface MovieDetailsEvents {
+    fun onBackButtonClick()
 }

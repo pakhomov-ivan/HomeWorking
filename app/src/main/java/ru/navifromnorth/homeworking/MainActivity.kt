@@ -1,23 +1,24 @@
 package ru.navifromnorth.homeworking
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.navifromnorth.homeworking.data.Movie
+import ru.navifromnorth.homeworking.movies.MovieDetailsEvents
 import ru.navifromnorth.homeworking.movies.MovieDetailsFragment
 import ru.navifromnorth.homeworking.movies.MoviesListFragment
 
-class MainActivity : AppCompatActivity(), Router {
+class MainActivity : AppCompatActivity(), Router, MovieDetailsEvents {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        savedInstanceState ?: openMoviesList()
+        savedInstanceState ?: openMoviesList(false)
     }
 
-    override fun openMoviesList() = openFragment(MoviesListFragment.newInstance()/*this is problem */)
+    override fun openMoviesList(addToBackStack: Boolean) =
+        openFragment(MoviesListFragment.newInstance(), addToBackStack)
 
     override fun openMovieDetails(movie: Movie?) =
         openFragment(MovieDetailsFragment.newInstance(movie))
@@ -31,5 +32,11 @@ class MainActivity : AppCompatActivity(), Router {
         }
 
         transaction.commit()
+    }
+
+    override fun onBackButtonClick() {
+        if (supportFragmentManager.fragments.size > 0)
+            supportFragmentManager.popBackStack()
+        openMoviesList(addToBackStack = false)
     }
 }

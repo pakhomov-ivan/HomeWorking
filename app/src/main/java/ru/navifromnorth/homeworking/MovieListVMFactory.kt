@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 
-class MovieListVMFactory(private val context: Context, private val router: Router?) :
+class MovieListVMFactory(private val context: Context) :
     ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -14,8 +14,7 @@ class MovieListVMFactory(private val context: Context, private val router: Route
             MoviesRepository(
                 context = context,
                 dispatcher =  Dispatchers.IO
-            ),
-            router
+            )
         )
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
     } as T
