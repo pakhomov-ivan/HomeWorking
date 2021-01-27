@@ -7,7 +7,7 @@ import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.Movie
 
 class MoviesAdapter(
-    private val onMovieClick: (movie: Movie?) -> Unit,
+    private val onMovieClick: (movie: Movie) -> Unit,
     private val onLikeClick: (movieId: Int?) -> Unit
 ) : RecyclerView.Adapter<PreviewMovieViewHolder>() {
 
@@ -17,7 +17,7 @@ class MoviesAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.view_holder_movie, parent, false)
 
-        val onViewClick = { movie: Movie? -> onMovieClick(movie) }
+        val onViewClick = { movie: Movie -> onMovieClick(movie) }
         val onLikeClick = { movie: Movie?, i: Int ->
             onLikeClick(movie?.id)
             notifyItemChanged(i)

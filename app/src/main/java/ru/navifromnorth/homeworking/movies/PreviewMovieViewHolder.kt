@@ -15,7 +15,7 @@ import ru.navifromnorth.homeworking.data.Movie
 
 class PreviewMovieViewHolder(
     itemView: View,
-    onViewClick: (Movie?) -> Unit,
+    onViewClick: (Movie) -> Unit,
     onLikeClick: (Movie?, Int) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {
     private val previewPoster: ImageView = itemView.findViewById(R.id.PreviewImageView)
@@ -35,7 +35,7 @@ class PreviewMovieViewHolder(
     private var currentMovie: Movie? = null
 
     init {
-        itemView.setOnClickListener { onViewClick(currentMovie) }
+        itemView.setOnClickListener { currentMovie?.let { it1 -> onViewClick(it1) } }
         like.setOnClickListener { onLikeClick(currentMovie, adapterPosition) }
     }
 

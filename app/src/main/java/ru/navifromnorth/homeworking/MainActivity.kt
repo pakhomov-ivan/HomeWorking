@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), Router, MovieDetailsEvents {
     override fun openMoviesList(addToBackStack: Boolean) =
         openFragment(MoviesListFragment.newInstance(), addToBackStack)
 
-    override fun openMovieDetails(movie: Movie?) =
+    override fun openMovieDetails(movie: Movie) =
         openFragment(MovieDetailsFragment.newInstance(movie))
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {

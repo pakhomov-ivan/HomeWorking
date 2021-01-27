@@ -69,7 +69,7 @@ class MoviesListFragment : Fragment() {
         recycler?.adapter = moviesAdapter
     }
 
-    private fun showMovieDetails(movie: Movie?){
+    private fun showMovieDetails(movie: Movie){
         parentRouter?.openMovieDetails(movie)
     }
 

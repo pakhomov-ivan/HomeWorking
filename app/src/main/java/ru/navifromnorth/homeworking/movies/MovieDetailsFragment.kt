@@ -87,7 +87,7 @@ class MovieDetailsFragment : Fragment() {
     companion object {
         val MOVIE_OBJECT: String = Movie::class.java.name
 
-        fun newInstance(movie: Movie?): MovieDetailsFragment {
+        fun newInstance(movie: Movie): MovieDetailsFragment {
             val args = Bundle()
             args.putParcelable(MOVIE_OBJECT, movie)
             val fragment = MovieDetailsFragment()
