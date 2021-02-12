@@ -3,15 +3,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/ic_mask_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/ic_mask_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".MovieDetailsActivity">
-<!--        android:background="@color/ic_mask_background"-->
+        <!--        android:background="@color/ic_mask_background"-->
 
         <ImageView
             android:id="@+id/HeaderImage"
@@ -21,8 +21,7 @@
             android:foreground="@drawable/preview_image_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/tenet_background_poster" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/BackButton"
@@ -93,7 +92,7 @@
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/PG"
-            tools:text="@string/avengers_end_game" />
+            tools:text="Avengers: End Game" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/TitleBarrier"
@@ -229,16 +228,19 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/CastRV"
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
-            app:layout_constraintTop_toBottomOf="@id/StorylineBarrier" />
+            app:layout_constraintTop_toBottomOf="@id/StorylineBarrier"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/CastRV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/VideosRV"
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/Cast"
@@ -247,6 +249,17 @@
             tools:listitem="@layout/actor_view_holder"
             tools:orientation="horizontal"
             tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/VideosRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/EndGuideline"
+            app:layout_constraintStart_toStartOf="@id/StartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/CastRV"
+            tools:itemCount="3"
+            tools:layotManager="vertical"
+            tools:listitem="@layout/simple_video_view_holder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

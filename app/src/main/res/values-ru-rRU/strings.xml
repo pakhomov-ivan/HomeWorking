@@ -2,30 +2,8 @@
 <resources>
     <string name="storyline">Сюжет</string>
     <string name="cast">В ролях</string>
-    <string name="avengers_end_game">Мстители: Конец Игры</string>
-    <string name="robert_downey_jr">Роберт Дауни Младший</string>
-    <string name="chris_evans">Крис Эванс</string>
-    <string name="mark_ruffalo">Марк Руффало</string>
-    <string name="chris_hemsworth">Крис Хэмсворт</string>
     <string name="back">Назад</string>
     <string name="movies_list">Список фильмов</string>
-    <string name="avengers_end_game_storyline">После разрушительных событий Мстители: Война бесконечности (2018), вселенная находится в руинах. С помощью остающихся союзников Мстители собираются еще раз, чтобы полностью изменить действия Тэноса и вернуть баланс вселенной.</string>
-    <string name="tenet_storyline">Вооруженный только одним словом, Принципом, и борющийся за выживание всего мира, Главный герой поездки через мир сумерек международного шпионажа на миссии, которая развернется в чем-то вне реального времени.</string>
-    <string name="black_widow_storyline">Фильм о Наташе Романов в ее поисках между гражданской войной фильмов и войной Бесконечности.</string>
-    <string name="wonder_women_1984_storyline">Ускоренная перемотка вперед к 1980-м как следующее приключение большого экрана Чудо-Женщины находит ее столкновение с двумя совершенно новыми противниками: Господь Макса и Гепард.</string>
-    <string name="scarlett_johansson">Скарлетт Йоханссон</string>
-    <string name="tenet">Довод</string>
-    <string name="black_widow">Чёрная Вдова</string>
-    <string name="wonder_women_1984">Чудо Женщина 1984</string>
-    <string name="tag_action">Экшн</string>
-    <string name="tag_adventure">Приключения</string>
-    <string name="tag_drama">Драма</string>
-    <string name="tag_sci_fi">Научно-популярный</string>
-    <string name="tag_thriller">Триллер</string>
-    <string name="tag_fantasy">Фантастика</string>
     <string name="reviews_text_view">%d Рецензий</string>
     <string name="runtime_min_text_view">%d МИН</string>
-    <string name="john_david_washington">Джон Дэвид Вашингтон</string>
-    <string name="robert_pattinson">Роберт Паттинсон</string>
-    <string name="gal_gadot">Галь Гадот</string>
 </resources>

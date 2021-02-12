@@ -3,33 +3,10 @@
     <string name="MovieDetails" translatable="false" />
     <string name="storyline">Storyline</string>
     <string name="cast">Cast</string>
-    <string name="avengers_end_game">Avengers: End Game</string>
-    <string name="robert_downey_jr">Robert Downey Jr.</string>
-    <string name="chris_evans">Chris Evans</string>
-    <string name="mark_ruffalo">Mark Ruffalo</string>
-    <string name="chris_hemsworth">Chris Hemsworth</string>
     <string name="back">Back</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="movies_list">Movies list</string>
-    <string name="avengers_end_game_storyline">After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.</string>
-    <string name="tenet_storyline">Armed with only one word, Tenet, and fighting for the survival of the entire world, a Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.</string>
-    <string name="black_widow_storyline">A film about Natasha Romanoff in her quests between the films Civil War and Infinity War.</string>
-    <string name="wonder_women_1984_storyline">Fast forward to the 1980s as Wonder Woman\'s next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.</string>
-    <string name="scarlett_johansson">Scarlett Johansson</string>
-    <string name="tenet">Tenet</string>
-    <string name="black_widow">Black Widow</string>
-    <string name="wonder_women_1984">Wonder Women 1984</string>
-    <string name="tag_action">Action</string>
-    <string name="tag_adventure">Adventure</string>
-    <string name="tag_drama">Drama</string>
-    <string name="tag_sci_fi">Sci-Fi</string>
-    <string name="tag_thriller">Thriller</string>
-    <string name="tag_fantasy">Fantasy</string>
     <string name="reviews_text_view">%d Reviews</string>
     <string name="runtime_min_text_view">%d MIN</string>
     <string name="PG_text_view" translatable="false">%d+</string>
-    <string name="john_david_washington">John David Washington</string>
-    <string name="robert_pattinson">Robert Pattinson</string>
-    <string name="gal_gadot">Gal Gadot</string>
 </resources>
