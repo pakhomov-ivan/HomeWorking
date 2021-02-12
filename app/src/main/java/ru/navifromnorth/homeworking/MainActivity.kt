@@ -76,6 +76,5 @@ class MainActivity : AppCompatActivity(), Router, MovieDetailsEvents {
     override fun onBackButtonClick() {
         if (supportFragmentManager.fragments.size > 0)
             supportFragmentManager.popBackStack()
-        openMoviesList(addToBackStack = false)
     }
 }
