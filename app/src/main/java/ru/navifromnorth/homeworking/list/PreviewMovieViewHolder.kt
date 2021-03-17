@@ -11,8 +11,8 @@ import ru.navifromnorth.homeworking.data.Movie
 
 class PreviewMovieViewHolder(
     itemView: View,
-    onViewClick: (Int) -> Unit,
-    onLikeClick: (Int, Int) -> Unit
+    onViewClick: (Long) -> Unit,
+    onLikeClick: (Long, Int) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {
     private val previewPoster: ImageView = itemView.findViewById(R.id.PreviewImageView)
     private val title: TextView = itemView.findViewById(R.id.FilmTitle)
@@ -25,26 +25,26 @@ class PreviewMovieViewHolder(
     private val likeEnableImage = R.drawable.ic_like_enable
     private val likeDisableImage = R.drawable.ic_like
 
-    private var currentMovieId: Int? = null
+    private var currentMovieId: Long? = null
 
     init {
         itemView.setOnClickListener { currentMovieId?.let { it1 -> onViewClick(it1) } }
         like.setOnClickListener { currentMovieId?.let { it1 -> onLikeClick(it1, adapterPosition) } }
     }
 
-    fun onBind(movie: Movie) {
-        previewPoster.load(movie.poster)
-        title.text = movie.title
-        rating.rating = movie.ratings / 2
+    fun onBind(movie: Movie?) {
+        previewPoster.load(movie?.poster)
+        title.text = movie?.title
+        rating.rating = movie?.ratings?.div(2) ?: 0.0f
         countReviews.text =
-            itemView.context.getString(R.string.reviews_text_view, movie.numberOfRatings)
-        PG.text = itemView.context.getString(R.string.PG_text_view, movie.minimumAge)
+            itemView.context.getString(R.string.reviews_text_view, movie?.numberOfRatings)
+        PG.text = itemView.context.getString(R.string.PG_text_view, movie?.minimumAge)
 
-        if (movie.hasLike) like.setImageResource(likeEnableImage)
+        if (movie?.hasLike == true) like.setImageResource(likeEnableImage)
         else like.setImageResource(likeDisableImage)
 
-        tags.text = movie.genres.joinToString(separator = ", ", transform = { item -> item.name })
+        tags.text = movie?.genres?.joinToString(separator = ", ", transform = { item -> item.name })
 
-        currentMovieId = movie.id
+        currentMovieId = movie?.id
     }
 }

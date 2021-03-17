@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Avengers: End Game la lal la la la la la" />
+        tools:text="Avengers: End Game la lal la la la la labgsddvsasdfasdfasdf" />
 
 
     <TextView

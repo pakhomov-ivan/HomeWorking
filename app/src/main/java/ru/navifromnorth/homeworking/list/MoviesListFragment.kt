@@ -4,23 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.Router
-import ru.navifromnorth.homeworking.data.Movie
 import ru.navifromnorth.homeworking.list.viewmodel.MovieListVMFactory
 import ru.navifromnorth.homeworking.list.viewmodel.MovieListViewModel
-import ru.navifromnorth.homeworking.list.viewmodel.Status
 
 class MoviesListFragment : Fragment() {
 
     private val parentRouter: Router? get() = activity as? Router
 
     //this will initialize only after onAttach!
-    private val viewModel: MovieListViewModel by activityViewModels { MovieListVMFactory() }
+    private val viewModel: MovieListViewModel by activityViewModels {
+        MovieListVMFactory(requireActivity().application)
+    }
 
     //recycler
     private var recycler: RecyclerView? = null
@@ -42,20 +43,23 @@ class MoviesListFragment : Fragment() {
         setUpRecycler(view)
 
         //subscribe on some events
-        viewModel.status.observe(viewLifecycleOwner, this::showStatus)
-        viewModel.moviesList.observe(viewLifecycleOwner, this::updateAdapter)
-
-        if (savedInstanceState == null)
-            viewModel.loadNextPage()
+        viewModel.isLoading.observe(viewLifecycleOwner, this::showLoading)
+        viewModel.isNetworkError.observe(viewLifecycleOwner, this::showNetworkError)
+        viewModel.moviesList.observe(viewLifecycleOwner, { moviesAdapter?.submitList(it) })
     }
 
-    private fun showStatus(status: Status) {
-        when (status) {
-            is Status.Success -> progressBar?.visibility = View.GONE
-            is Status.Loading -> progressBar?.visibility = View.VISIBLE
-            is Status.Error.InnerError -> parentRouter?.showError("Ахтунг! Внутренняя ошибка!")
-            is Status.Error.NetworkError -> parentRouter?.showError("Конец Света - нет Интернета!!!")
-            is Status.Error.UnexpectedError -> parentRouter?.showError("Fatal Error")
+    private fun showLoading(isLoading: Boolean) {
+        when (isLoading) {
+            true -> progressBar?.visibility = View.VISIBLE
+            false -> progressBar?.visibility = View.GONE
+        }
+    }
+
+    private fun showNetworkError(isError: Boolean) {
+        when (isError) {
+            true -> Toast.makeText(context, "Service is not available", Toast.LENGTH_LONG).show()
+            false -> {
+            }
         }
     }
 
@@ -69,19 +73,13 @@ class MoviesListFragment : Fragment() {
         progressBar = null
     }
 
-    private fun updateAdapter(movies: List<Movie>) {
-        moviesAdapter?.bindMovies(movies)
-    }
-
     private fun initViews(view: View) {
-        recycler = view.findViewById(R.id.rv_movies)
-
         progressBar = view.findViewById(R.id.loading_progressbar)
     }
 
     private fun setUpRecycler(view: View) {
-        moviesAdapter =
-            MoviesAdapter(this::showMovieDetails, viewModel::onLikeClick, viewModel::loadNextPage)
+        recycler = view.findViewById(R.id.rv_movies)
+        moviesAdapter = MoviesAdapter(this::showMovieDetails, viewModel::onLikeClick)
 
         recycler?.layoutManager = GridLayoutManager(
             activity,
@@ -92,7 +90,7 @@ class MoviesListFragment : Fragment() {
         recycler?.adapter = moviesAdapter
     }
 
-    private fun showMovieDetails(movieId: Int) {
+    private fun showMovieDetails(movieId: Long) {
         parentRouter?.openMovieDetails(movieId)
     }
 

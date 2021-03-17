@@ -2,60 +2,41 @@ package ru.navifromnorth.homeworking.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
 import ru.navifromnorth.homeworking.data.Movie
 
 class MoviesAdapter(
-    private val onMovieClick: (movieId: Int) -> Unit,
-    private val onLikeClick: (movieId: Int) -> Unit,
-    private val onListEnded: () -> Unit
-) : RecyclerView.Adapter<PreviewMovieViewHolder>() {
-
-    private var movies = listOf<Movie>()
+    private val onMovieClick: (movieId: Long) -> Unit,
+    private val onLikeClick: (movieId: Long, hasLike: Boolean) -> Unit
+) : PagedListAdapter<Movie, PreviewMovieViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewMovieViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.view_holder_movie, parent, false)
 
-        val onViewClick = { movieId: Int -> onMovieClick(movieId) }
-        val onLikeClick = { movieId: Int, i: Int ->
-            onLikeClick(movieId)
-            notifyItemChanged(i)
-        }
-        return PreviewMovieViewHolder(view, onViewClick = onViewClick, onLikeClick = onLikeClick)
+        return PreviewMovieViewHolder(
+            view,
+            onViewClick = { movieId: Long -> onMovieClick(movieId) },
+            onLikeClick = { movieId: Long, i: Int ->
+                getItem(i)?.let { onLikeClick(movieId, it.hasLike.not()) }
+            }
+        )
     }
 
     override fun onBindViewHolder(holder: PreviewMovieViewHolder, position: Int) {
-        holder.onBind(movies[position])
-        if (position >= movies.size - 2)
-            onListEnded()
+        val movie = getItem(position)
+        holder.onBind(movie)
     }
 
-    override fun getItemCount(): Int = movies.size
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+                oldItem.id == newItem.id
 
-    fun bindMovies(newMovies: List<Movie>) {
-        val diff = DiffUtil.calculateDiff(
-            MoviesListDiffUtilCallback(movies, newMovies)
-        )
-        diff.dispatchUpdatesTo(this)
-        movies = newMovies
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+                oldItem == newItem
+        }
     }
-}
-
-class MoviesListDiffUtilCallback(
-    private val oldList: List<Movie>,
-    private val newList: List<Movie>
-) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
-        = oldList[oldItemPosition].id == newList[newItemPosition].id
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
-        = oldList[oldItemPosition] == newList[newItemPosition]
-
 }

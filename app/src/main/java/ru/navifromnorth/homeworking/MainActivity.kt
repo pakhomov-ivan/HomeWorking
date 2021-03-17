@@ -35,13 +35,12 @@ class MainActivity : AppCompatActivity(), Router, MovieDetailsEvents {
     private fun setViews() {
         progressbar = findViewById(R.id.activity_progressbar)
         framelayout = findViewById(R.id.MovieListFragment)
-        errorMessage = findViewById(R.id.error_message)
     }
 
     override fun openMoviesList(addToBackStack: Boolean) =
         openFragment(MoviesListFragment.newInstance(), addToBackStack)
 
-    override fun openMovieDetails(movieId: Int) {
+    override fun openMovieDetails(movieId: Long) {
         openFragment(MovieDetailsFragment.newInstance(movieId))
     }
 
@@ -58,13 +57,9 @@ class MainActivity : AppCompatActivity(), Router, MovieDetailsEvents {
         }
     }
 
-    override fun showError(message: String) {
-        openFragment(ErrorFragment.newInstance(message), false)
-    }
-
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
         val transaction = supportFragmentManager.beginTransaction()
-            .replace(R.id.MovieListFragment, fragment)
+            .add(R.id.MovieListFragment, fragment)
 
         if (addToBackStack) {
             transaction.addToBackStack(fragment::class.java.name)

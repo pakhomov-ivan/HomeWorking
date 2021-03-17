@@ -1,5 +1,6 @@
 package ru.navifromnorth.homeworking.repository.api
 
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,15 +17,15 @@ interface TMDBServiceAPI {
         @Query("page") page: Int
     ): MoviesListDTO
 
-    @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int,
-        @Query("api_key") api_key: String
-    ): MovieDetailsDTO
+//    @GET("movie/{movie_id}")
+//    suspend fun getMovieDetails(
+//        @Path("movie_id") movieId: Long ,
+//        @Query("api_key") api_key: String
+//    ): MovieDetailsDTO
 
     @GET("movie/{movie_id}/videos")
-    suspend fun getViedos(
-        @Path("movie_id") movieId: Int,
+    suspend fun getMovieVideos(
+        @Path("movie_id") movieId: Long,
         @Query("api_key") api_key: String
     ): VideosListDTO
 

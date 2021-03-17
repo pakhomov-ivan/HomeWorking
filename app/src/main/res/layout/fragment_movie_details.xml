@@ -33,6 +33,7 @@
             android:drawablePadding="8dp"
             android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="2sp"
+            android:padding="6dp"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="12sp"
@@ -41,6 +42,18 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:padding="6dp"
+            app:layout_constraintEnd_toEndOf="@id/EndGuideline"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toEndOf="@id/BackButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_like_enable" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/StartGuideline"
@@ -226,7 +239,7 @@
             android:shadowRadius="12"
             android:text="@string/cast"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/CastRV"
@@ -257,8 +270,9 @@
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/CastRV"
-            tools:itemCount="3"
-            tools:layotManager="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:itemCount="1"
+            tools:layotManager="horizontal"
             tools:listitem="@layout/simple_video_view_holder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

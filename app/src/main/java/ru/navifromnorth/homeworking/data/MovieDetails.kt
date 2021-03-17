@@ -1,14 +1,14 @@
 package ru.navifromnorth.homeworking.data
 
 data class MovieDetails(
-    val id: Int,
-    val adult: Boolean,
+    val id: Long,
+    val adult: Int,
     val backdrop: String?,
-    val genres: List<Genre>,
     val title: String,
     val overview: String?,
-    val runtime: Int?,
     val vote_average: Float,
     val vote_count: Int,
-    val video: List<Video>?
+    val like: Boolean,
+    val genres: List<Genre>,
+    val videos: List<Video>?
 )
