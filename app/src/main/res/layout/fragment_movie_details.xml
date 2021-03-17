@@ -3,21 +3,22 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:background="@color/ic_mask_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ic_mask_background"
         tools:context=".MovieDetailsActivity">
-    
+        <!--        android:background="@color/ic_mask_background"-->
+
         <ImageView
             android:id="@+id/HeaderImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/mask"
+            android:foreground="@drawable/preview_image_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,35 +27,47 @@
             android:id="@+id/BackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:layout_marginTop="56dp"
             android:layout_marginStart="22dp"
+            android:layout_marginTop="56dp"
+            android:alpha="0.85"
             android:drawablePadding="8dp"
             android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="2sp"
-            android:alpha="0.5"
-            android:textSize="12sp"
+            android:padding="6dp"
+            android:text="@string/back"
             android:textColor="@color/white"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_path"
             app:layout_constraintEnd_toEndOf="parent"
-            app:drawableStartCompat="@drawable/ic_path" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:padding="6dp"
+            app:layout_constraintEnd_toEndOf="@id/EndGuideline"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toEndOf="@id/BackButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_like_enable" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/StartGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp"
-            />
+            app:layout_constraintGuide_begin="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/EndGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp"/>
+            app:layout_constraintGuide_end="16dp" />
 
         <TextView
             android:id="@+id/PG"
@@ -72,7 +85,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/BackButton"
-            android:text="@string/_13" />
+            tools:text="13+" />
 
         <TextView
             android:id="@+id/FilmTitle"
@@ -86,14 +99,14 @@
             android:shadowDx="0"
             android:shadowDy="6"
             android:shadowRadius="12"
-            android:text="@string/avengers_end_game"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
-            app:layout_constraintTop_toBottomOf="@id/PG" />
-    
+            app:layout_constraintTop_toBottomOf="@id/PG"
+            tools:text="Avengers: End Game" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/TitleBarrier"
             android:layout_width="wrap_content"
@@ -114,8 +127,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/TitleBarrier"
-            android:text="@string/action_adventure_fantasy" />
-    
+            tools:text="action adventure fantasy" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/TagsLineBarrier"
             android:layout_width="wrap_content"
@@ -132,15 +145,15 @@
             android:layout_marginVertical="4dp"
             android:layout_marginEnd="4dp"
             android:numStars="5"
-            android:rating="4.0"
             android:stepSize="1.0"
             app:layout_constraintBottom_toTopOf="@id/RatingBarrier"
             app:layout_constraintEnd_toStartOf="@id/SumReviews"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
-            app:layout_constraintTop_toBottomOf="@id/TagsLineBarrier" />
-    
+            app:layout_constraintTop_toBottomOf="@id/TagsLineBarrier"
+            tools:rating="4.0" />
+
         <TextView
             android:id="@+id/SumReviews"
             android:layout_width="wrap_content"
@@ -156,8 +169,8 @@
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toEndOf="@id/Rating"
             app:layout_constraintTop_toBottomOf="@id/TagsLineBarrier"
-            android:text="@string/_147_reviews" />
-    
+            tools:text="147 reviews" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/RatingBarrier"
             android:layout_width="wrap_content"
@@ -165,7 +178,7 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="Rating,SumReviews"
             tools:layout_editor_absoluteY="429dp" />
-    
+
         <TextView
             android:id="@+id/Storyline"
             android:layout_width="wrap_content"
@@ -187,7 +200,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/RatingBarrier" />
-    
+
         <TextView
             android:id="@+id/StorylineDetails"
             android:layout_width="0dp"
@@ -201,10 +214,8 @@
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
             app:layout_constraintStart_toStartOf="@id/StartGuideline"
             app:layout_constraintTop_toBottomOf="@id/Storyline"
-            android:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
-            tools:ignore="HardcodedText" />
-    
-    
+            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe." />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/StorylineBarrier"
             android:layout_width="wrap_content"
@@ -212,186 +223,58 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="StorylineDetails"
             tools:layout_editor_absoluteY="566dp" />
-    
+
         <TextView
             android:id="@+id/Cast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="7dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:text="@string/cast"
-            android:lineSpacingExtra="8sp"
-            android:textSize="14sp"
             android:letterSpacing="-0.01"
+            android:lineSpacingExtra="8sp"
+            android:paddingBottom="7dp"
             android:shadowColor="#80000000"
             android:shadowDx="0"
             android:shadowDy="6"
             android:shadowRadius="12"
-            android:textStyle="bold"
+            android:text="@string/cast"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/StorylineBarrier"
-            app:layout_constraintStart_toStartOf="@id/StartGuideline"
-            app:layout_constraintEnd_toEndOf="@id/EndGuideline"/>
-
-        <ImageView
-            android:id="@+id/ActorImage1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:src="@drawable/actor1"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@id/ActorName1"
-            app:layout_constraintEnd_toStartOf="@+id/ActorImage2"
-            app:layout_constraintStart_toStartOf="@id/StartGuideline"
-            app:layout_constraintTop_toBottomOf="@id/Cast" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage1Start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="ActorImage1"/>
-    
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage1End"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="ActorImage1"/>
-
-        <TextView
-            android:id="@+id/ActorName1"
-            style="@style/ActorNameStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/robert_downey_jr"
-            android:singleLine="false"
-            app:layout_constraintEnd_toEndOf="@id/ActorImage1End"
-            app:layout_constraintStart_toStartOf="@id/ActorImage1Start"
-            app:layout_constraintTop_toBottomOf="@id/ActorImage1"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/ActorImage2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:src="@drawable/actor2"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@id/ActorName2"
-            app:layout_constraintEnd_toStartOf="@id/ActorImage3"
-            app:layout_constraintStart_toEndOf="@id/ActorImage1"
-            app:layout_constraintTop_toBottomOf="@id/Cast" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage2Start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="ActorImage2"/>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage2End"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="ActorImage2"/>
-
-        <TextView
-            android:id="@+id/ActorName2"
-            style="@style/ActorNameStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/chris_evans"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/ActorImage2End"
-            app:layout_constraintStart_toStartOf="@id/ActorImage2Start"
-            app:layout_constraintTop_toBottomOf="@id/ActorImage2" />
-
-        <ImageView
-            android:id="@+id/ActorImage3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:src="@drawable/actor3"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@id/ActorName3"
-            app:layout_constraintEnd_toStartOf="@id/ActorImage4"
-            app:layout_constraintStart_toEndOf="@id/ActorImage2"
-            app:layout_constraintTop_toBottomOf="@id/Cast" />
-    
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage3Start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="ActorImage3"/>
-    
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage3End"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="ActorImage3"/>
-
-        <TextView
-            android:id="@+id/ActorName3"
-            style="@style/ActorNameStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/mark_ruffalo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/ActorImage3End"
-            app:layout_constraintStart_toStartOf="@id/ActorImage3Start"
-            app:layout_constraintTop_toBottomOf="@id/ActorImage3" />
-
-        <ImageView
-            android:id="@+id/ActorImage4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:src="@drawable/actor4"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@+id/ActorName4"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/CastRV"
             app:layout_constraintEnd_toEndOf="@id/EndGuideline"
-            app:layout_constraintStart_toEndOf="@id/ActorImage3"
-            app:layout_constraintTop_toBottomOf="@id/Cast" />
-    
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage4Start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="ActorImage4"/>
+            app:layout_constraintStart_toStartOf="@id/StartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/StorylineBarrier"
+            tools:visibility="visible" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/ActorImage4End"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="ActorImage4"/>
-
-        <TextView
-            android:id="@+id/ActorName4"
-            style="@style/ActorNameStyle"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/CastRV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/chris_hemsworth"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/ActorImage4End"
-            app:layout_constraintStart_toStartOf="@id/ActorImage4Start"
-            app:layout_constraintTop_toBottomOf="@id/ActorImage4" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/VideosRV"
+            app:layout_constraintEnd_toEndOf="@id/EndGuideline"
+            app:layout_constraintStart_toStartOf="@id/StartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/Cast"
+            tools:itemCount="4"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/actor_view_holder"
+            tools:orientation="horizontal"
+            tools:visibility="visible" />
 
-    
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/VideosRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/EndGuideline"
+            app:layout_constraintStart_toStartOf="@id/StartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/CastRV"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:itemCount="1"
+            tools:layotManager="horizontal"
+            tools:listitem="@layout/simple_video_view_holder" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
