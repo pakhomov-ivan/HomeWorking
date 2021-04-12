@@ -6,20 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.navifromnorth.homeworking.R
-import ru.navifromnorth.homeworking.Router
 import ru.navifromnorth.homeworking.list.viewmodel.MovieListVMFactory
 import ru.navifromnorth.homeworking.list.viewmodel.MovieListViewModel
 
 class MoviesListFragment : Fragment() {
 
-    private val parentRouter: Router? get() = activity as? Router
-
     //this will initialize only after onAttach!
-    private val viewModel: MovieListViewModel by activityViewModels {
+    private val viewModel: MovieListViewModel by viewModels {
         MovieListVMFactory(requireActivity().application)
     }
 
@@ -33,7 +32,9 @@ class MoviesListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.fragment_movies_list, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,24 +44,22 @@ class MoviesListFragment : Fragment() {
         setUpRecycler(view)
 
         //subscribe on some events
-        viewModel.isLoading.observe(viewLifecycleOwner, this::showLoading)
-        viewModel.isNetworkError.observe(viewLifecycleOwner, this::showNetworkError)
-        viewModel.moviesList.observe(viewLifecycleOwner, { moviesAdapter?.submitList(it) })
+        viewModel.isLoading.observe(viewLifecycleOwner, isLoading)
+        viewModel.isNetworkError.observe(viewLifecycleOwner, showNetworkError)
+        viewModel.moviesList.observe(viewLifecycleOwner, Observer { moviesAdapter?.submitList(it) })
     }
 
-    private fun showLoading(isLoading: Boolean) {
+    private val isLoading = Observer<Boolean> { isLoading ->
         when (isLoading) {
             true -> progressBar?.visibility = View.VISIBLE
             false -> progressBar?.visibility = View.GONE
         }
     }
 
-    private fun showNetworkError(isError: Boolean) {
-        when (isError) {
-            true -> Toast.makeText(context, "Service is not available", Toast.LENGTH_LONG).show()
-            false -> {
-            }
-        }
+    private val showNetworkError = Observer<Boolean> { isError ->
+        if (isError)
+            Toast.makeText(context, "Service is not available", Toast.LENGTH_LONG).show()
+        //todo: what else?
     }
 
     override fun onDestroy() {
@@ -79,7 +78,12 @@ class MoviesListFragment : Fragment() {
 
     private fun setUpRecycler(view: View) {
         recycler = view.findViewById(R.id.rv_movies)
-        moviesAdapter = MoviesAdapter(this::showMovieDetails, viewModel::onLikeClick)
+        moviesAdapter = MoviesAdapter(this::showMovieDetails) { movieId, hasLike ->
+            viewModel.onLikeClick(
+                movieId,
+                hasLike
+            )
+        }
 
         recycler?.layoutManager = GridLayoutManager(
             activity,
@@ -91,7 +95,9 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun showMovieDetails(movieId: Long) {
-        parentRouter?.openMovieDetails(movieId)
+        findNavController().navigate(
+            MoviesListFragmentDirections.actionMoviesListFragment2ToMovieDetailsFragment(movieId)
+        )
     }
 
     companion object {

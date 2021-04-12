@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/routes"
+    app:startDestination="@id/moviesListFragment2">
+    <fragment
+        android:id="@+id/moviesListFragment2"
+        android:name="ru.navifromnorth.homeworking.list.MoviesListFragment"
+        android:label="MoviesListFragment" >
+        <action
+            android:id="@+id/action_moviesListFragment2_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_moviesListFragment2_to_generalSettingsFragment2"
+            app:destination="@id/generalSettingsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="ru.navifromnorth.homeworking.details.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" >
+        <argument
+            android:name="movieID"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_generalSettingsFragment2"
+            app:destination="@id/generalSettingsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/generalSettingsFragment2"
+        android:name="ru.navifromnorth.homeworking.settings.GeneralSettingsFragment"
+        android:label="fragment_general_settings"
+        tools:layout="@layout/fragment_general_settings" />
+</navigation>

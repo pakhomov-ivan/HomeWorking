@@ -8,20 +8,14 @@
 
     <TextView
         android:id="@+id/MoviesListTextView"
+        style="@style/HeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
         android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="4sp"
         android:text="@string/movies_list"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.0"
         app:drawableStartCompat="@drawable/target_shape"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,12 +40,11 @@
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/MoviesListTextView"
         app:layout_constraintHorizontal_bias="1.0"
-         />
+        app:layout_constraintStart_toEndOf="@+id/MoviesListTextView"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
