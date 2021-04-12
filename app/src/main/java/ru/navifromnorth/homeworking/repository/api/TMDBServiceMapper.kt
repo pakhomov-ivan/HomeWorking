@@ -9,7 +9,11 @@ import ru.navifromnorth.homeworking.repository.database.entities.MoviesEntity
 import ru.navifromnorth.homeworking.repository.database.entities.VideosEntity
 import ru.navifromnorth.homeworking.repository.database.entities.relations_entity.MovieWithGenres
 
-class TMDBServiceMapper {
+object TMDBServiceMapper {
+
+    private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
+    private const val BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780"
+    private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
 
     //Movie
     fun mapEntity(moviesListDTO: MoviesListDTO): List<MovieWithGenres> =
@@ -64,10 +68,4 @@ class TMDBServiceMapper {
         type = video.type,
         site = video.site
     )
-
-    companion object {
-        private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
-        private const val BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780"
-        private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
-    }
 }

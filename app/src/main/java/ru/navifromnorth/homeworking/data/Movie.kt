@@ -1,9 +1,5 @@
 package ru.navifromnorth.homeworking.data
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class Movie(
         val id: Long,
         val title: String,
@@ -13,4 +9,4 @@ data class Movie(
         val minimumAge: Int,
         var hasLike: Boolean = false,
         val genres: List<Genre>,
-) : Parcelable
+)

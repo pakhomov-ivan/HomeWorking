@@ -1,4 +1,4 @@
-package ru.navifromnorth.homeworking.list
+package ru.navifromnorth.homeworking.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,14 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.navifromnorth.homeworking.R
-import ru.navifromnorth.homeworking.Router
 import ru.navifromnorth.homeworking.data.MovieDetails
 import ru.navifromnorth.homeworking.details.viewmodel.MovieDetailsViewModel
 import ru.navifromnorth.homeworking.details.viewmodel.MovieDetailsViewModelFactory
@@ -21,17 +26,18 @@ import ru.navifromnorth.homeworking.videos.VideosListAdapter
 
 class MovieDetailsFragment : Fragment() {
 
+    private val args: MovieDetailsFragmentArgs by navArgs()
+
     //viewModel
     private val viewModel: MovieDetailsViewModel by viewModels {
         MovieDetailsViewModelFactory(
-            requireArguments().getLong(MOVIE_DETAILS_ID),
+            args.movieID,
             requireActivity().application
         )
     }
 
-    //activityRouter
-    private val parentRouter: Router? get() = activity as? Router
-
+    private var loadingProgressBar: ContentLoadingProgressBar? = null
+    private var content: ScrollView? = null
     private var backdrop: ImageView? = null
     private var PG: TextView? = null
     private var filmTitle: TextView? = null
@@ -46,7 +52,6 @@ class MovieDetailsFragment : Fragment() {
 
     private var videosListRecycler: RecyclerView? = null
     private var videosListAdapter: VideosListAdapter? = null
-    private var eventsListener: MovieDetailsEvents? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,11 +67,14 @@ class MovieDetailsFragment : Fragment() {
         setVideosListRecycler(view)
 
         //subscribe on events
-        viewModel.selectedMovie.observe(viewLifecycleOwner, this::setContent)
-        viewModel.isLoading.observe(viewLifecycleOwner, this::visibilityProgressbar)
+        viewModel.selectedMovie.observe(viewLifecycleOwner, setContent)
+        viewModel.isLoading.observe(viewLifecycleOwner, visibilityProgressbar)
     }
 
     private fun setContentElements(view: View) {
+        loadingProgressBar = view.findViewById(R.id.MoviesDetailsLoadingProgressBar)
+        content = view.findViewById(R.id.MovieDetailsContentScrollView)
+
         backdrop = view.findViewById(R.id.HeaderImage)
         PG = view.findViewById(R.id.PG)
         filmTitle = view.findViewById(R.id.FilmTitle)
@@ -79,7 +87,7 @@ class MovieDetailsFragment : Fragment() {
         likeButton = view.findViewById(R.id.LikeButton)
     }
 
-    private fun setContent(movie: MovieDetails) {
+    private val setContent = Observer<MovieDetails> { movie ->
         PG?.text = context?.getString(R.string.PG_text_view, movie.adult)
 
         filmTitle?.text = movie.title
@@ -105,20 +113,26 @@ class MovieDetailsFragment : Fragment() {
         videosListRecycler?.adapter = videosListAdapter
     }
 
-    private fun visibilityProgressbar(isShow: Boolean) = parentRouter?.showProgressBar(isShow)
+    private val visibilityProgressbar = Observer<Boolean>{isLoading ->
+        if (isLoading){
+            loadingProgressBar?.visibility = View.VISIBLE
+            content?.visibility = View.GONE
+        } else {
+            loadingProgressBar?.visibility = View.GONE
+            content?.visibility = View.VISIBLE
+        }
+    }
 
     private fun setListeners() {
-        eventsListener = context as? MovieDetailsEvents
-        backButton?.setOnClickListener { eventsListener?.onBackButtonClick() }
+        backButton?.setOnClickListener { findNavController().navigateUp() }
 
         likeButton?.setOnClickListener {
-            isLike = isLike.not()
             viewModel.onLikeClick(
                 movieId = requireArguments().getLong(MOVIE_DETAILS_ID),
-                hasLike = isLike,
+                hasLike = isLike.not(),
                 forceUpdate = false
             )
-            setImageLikeButton(isLike)
+            setImageLikeButton(isLike.not())
         }
     }
 
@@ -155,8 +169,4 @@ class MovieDetailsFragment : Fragment() {
             return fragment
         }
     }
-}
-
-interface MovieDetailsEvents {
-    fun onBackButtonClick()
 }

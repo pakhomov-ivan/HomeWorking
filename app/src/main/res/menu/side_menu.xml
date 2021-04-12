@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/moviesListFragment2"
+        android:icon="@drawable/target_shape"
+        android:title="@string/most_popular" />
+
+
+    <item
+        android:id="@+id/generalSettingsFragment2"
+        android:icon="@drawable/ic_basic_settings"
+        android:title="@string/settings" />
+
+</menu>
